@@ -21,6 +21,13 @@ public class Prospector : MonoBehaviour
     {
         deck = GetComponent<Deck>();// Получить компонент  Deck
         deck.InitDeck(deckXML.text);// Передать ему DeckXML
+        Deck.Shuffle(ref deck.cards);//Перемешать колоду карт
+        Cart c;
+        for(int cNum = 0; cNum<deck.cards.Count; cNum++)
+        {
+            c = deck.cards[cNum];
+            c.transform.localPosition = new Vector3((cNum % 13) * 3, cNum / 13 * 4, 0);
+        }
     }
     // Update is called once per frame
     void Update()

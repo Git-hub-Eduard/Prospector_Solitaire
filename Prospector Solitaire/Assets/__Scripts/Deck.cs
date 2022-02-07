@@ -7,6 +7,7 @@ using System.Globalization;
 public class Deck : MonoBehaviour
 {
     [Header("set in Inspector")]
+    public bool startFaceUp = false;
     //ћасти
     public Sprite suitClub;
     public Sprite suitDiamond;
@@ -191,6 +192,7 @@ public class Deck : MonoBehaviour
         AddDecorators(card);
         AddPips(card);
         AddFace(card);
+        AddBack(card);
         return card;
     }
 
@@ -306,6 +308,46 @@ public class Deck : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private void AddBack(Cart card)
+    {
+        //ƒобваить рубашку
+        //Card_Back будет покрывать все остальное на карте
+        _tGO= Instantiate(prefabSprite) as GameObject;
+        _tSR= _tGO.GetComponent<SpriteRenderer>();
+        _tSR.sprite = cardBack;
+        _tGO.transform.SetParent(card.transform);
+        _tGO.transform.localPosition= Vector3.zero;
+        _tSR.sortingOrder = 2;
+        _tGO.name = "back";
+        card.back = _tGO;
+        card.faceUp = startFaceUp;
+
+    }
+
+    //ѕеремешивает карты в Deck.cards
+    static public void Shuffle(ref List<Cart> oCards)
+    {
+        //—оздать временный список дл€ хранени€ карт в перемешанном пор€дке
+        List<Cart> tCarts = new List<Cart>();
+        int ndx;//Ѕулет хранить индекс перемещаемой карты 
+        tCarts = new List<Cart>();//»нициализировать ременный список
+        //ѕовтор€ть пока не будет перемешаны все карты в иходном списке
+        while(oCards.Count > 0)
+        {
+            //¬ыбрать случайный индекс карты 
+            ndx = Random.Range(0, oCards.Count);
+            //ƒобавить эту карту во временный список 
+            tCarts.Add(oCards[ndx]);
+            //и удалить карту из исходного списка
+            oCards.RemoveAt(ndx);
+        }
+        //«аменить исходный список временным
+        oCards = tCarts;
+        //“ак как  oCards - это параметр  - ссылка (ref)
+        //оригинальный аргумент, переданный в метод, тоже изменитса
+
     }
 
 }

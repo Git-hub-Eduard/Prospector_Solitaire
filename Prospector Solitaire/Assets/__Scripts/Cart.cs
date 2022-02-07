@@ -15,6 +15,17 @@ public class Cart : MonoBehaviour
     public List<GameObject> pipGOs = new List<GameObject>();
     public GameObject back;//Игровой объект рубашки карты
     public CartDefinition def;//Извлекаетса из DeckXML.xml
+    public bool faceUp
+    {
+        get
+        {
+            return (!back.activeSelf);
+        }
+        set
+        {
+            back.SetActive(!value);
+        }
+    }
     
 }
 
